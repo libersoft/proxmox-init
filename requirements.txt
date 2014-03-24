@@ -1,0 +1,8 @@
+Jinja2==2.7.2
+MarkupSafe==0.19
+ecdsa==0.11
+paramiko==1.12.2
+proxmoxer==0.1.4
+pycrypto==2.6.1
+requests==2.2.1
+wsgiref==0.1.2
