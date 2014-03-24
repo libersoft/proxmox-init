@@ -41,6 +41,8 @@ instance['hd_seed'] = instance['hd_seed'] % (vmid, vmid)
 for ifs in instance['ifs']:
     ifs['address'] = ifs['address'] % (vmid)
 
+instance['vmid'] = vmid
+instance['name'] = name
 
 # proxmoxer initialize
 proxmox_api = ProxmoxAPI(proxmox['host'], user=proxmox['user'],
