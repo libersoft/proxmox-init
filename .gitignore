@@ -52,3 +52,7 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Generated files
+user-data
+meta-data
+*seed.raw
