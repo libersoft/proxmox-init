@@ -19,6 +19,7 @@ def instance_customize(instance, vmid, name, flavor_type):
 
     # configure instance custom details
     instance['hd_root'] = instance['hd_root'] % (vmid, vmid)
+    instance['lvm_root'] = instance['lvm_root'] % (vmid)
     instance['hd_seed'] = instance['hd_seed'] % (vmid, vmid)
 
     for ifs in instance['ifs']:
@@ -84,6 +85,17 @@ def dir_volume(vmid, instance, proxmox):
     proxmox_ssh.close()
 
 
+def lvm_volume(vmid, instance, proxmox):
+    
+    command = 'qemu-img convert -O raw %s%s %s' % (proxmox['images'],
+                                                   instance['os'],
+                                                   instance['lvm_root'])
+
+    proxmox_ssh = get_proxmox_ssh(proxmox)
+    stdin, stdout, stderr = proxmox_ssh.exec_command(command)
+    proxmox_ssh.close()
+
+
 if __name__ == "__main__":
 
     # configuring and reading arguments
@@ -96,10 +108,10 @@ if __name__ == "__main__":
                         help='Virtual machine name/hostname',
                         required=True)
     parser.add_argument('--flavor', '-f', type=str,
-                        default='small',
+                        default='small', choices=['micro', 'small'],
                         help='Virtual machine flavor')
     parser.add_argument('--storage', '-s', type=str,
-                        default='dir',
+                        default='dir', choices=['dir', 'lvm'],
                         help='Virtual machine storage backend')
 
     args = parser.parse_args()
@@ -137,6 +149,11 @@ if __name__ == "__main__":
         node.qemu(vmid).config.set(virtio0=instance['hd_root'])
         # adjust root size
         node.qemu(vmid).resize.set(disk='virtio0', size=flavor['root_size'])
+    elif storage_type == 'lvm':
+        # initialize lvm volume
+        node.qemu(vmid).config.set(virtio0='%s:%s' % ('vg0',
+                                   flavor['root_size'].replace('G', '')))
+        lvm_volume(vmid, instance, proxmox)
 
     # set boot device
     node.qemu(vmid).config.set(bootdisk='virtio0')

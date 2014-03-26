@@ -4,6 +4,7 @@ instance = {}
 ## instance default
 instance['net'] = 'virtio,bridge=vmbr0'
 instance['hd_root'] = 'local:%s/vm-%s-disk-1.qcow2'
+instance['lvm_root'] = '/dev/vg0/vm-%s-disk-1'
 instance['hd_seed'] = 'local:%s/vm-%s-seed.raw'
 
 ## instance customization
