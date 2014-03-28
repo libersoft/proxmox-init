@@ -56,3 +56,7 @@ docs/_build/
 user-data
 meta-data
 *seed.raw
+
+# Sensitive data
+settings/settings.py
+instance/instance.py

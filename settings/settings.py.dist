@@ -3,7 +3,7 @@ proxmox = {}
 
 proxmox['host'] = 'proxmox'
 proxmox['user'] = 'root@pam'
-proxmox['password'] = '***REMOVED***'
+proxmox['password'] = 'your_proxmox_password'
 proxmox['images'] = '/var/lib/vz/images/'
 proxmox['verify_ssl'] = False
 proxmox['node'] = 'proxmox'
