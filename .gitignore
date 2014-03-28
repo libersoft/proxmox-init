@@ -59,4 +59,4 @@ meta-data
 
 # Sensitive data
 settings/settings.py
-instance/instance.py
+settings/instance.py
