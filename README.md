@@ -16,12 +16,12 @@ You need also to install `genisoimage`, needed to create the cloudinit seed data
 
 ## Configuration
 
-You have to modify proxmox settings in `settings/settings.py` to reflect your current proxmox configuration.
+You have to copy proxmox settings from `settings/settings.py.dist` to `settings/settings.py` and edit it to reflect your current proxmox configuration.
 
 You can add and modify your hardware flavors in `flavors/`.
 In this case you have also to update choices for `--flavor` cmdline switch in the main script.
 
-You can modify your instance configuration in `settings/instance.py`.
+You have to copy instance configuration from `settings/instance.py.dist` to `settings/instance.py` and edit it to reflect your need.
 
 Current format for configuration is quite rough and not very flexible.
 
@@ -47,7 +47,7 @@ for the user specified in the settings file.
 
 Rough working proof of concept.
 
-## Future Improvements
+## Possible Improvements
 
 *   Puppet and chef section in cloudinit template.
 *   Ansible-pull launch on instance customization.
