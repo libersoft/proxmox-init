@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Proxmox-init by libersoft</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/libersoft/proxmox-init">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/libersoft/proxmox-init/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/libersoft/proxmox-init/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Proxmox-init</h1>
+          <p>Python script to deploy GNU/Linux cloud images, cloud-style, on Proxmox KVM. Based on Proxmox API Python (proxmoxer) and cloud-init.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/libersoft">libersoft</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="proxmox-init" class="anchor" href="#proxmox-init"><span class="octicon octicon-link"></span></a>proxmox-init</h1>
+
+<p>Python script to deploy GNU/Linux cloud images (tested with <a href="http://cloud-images.ubuntu.com/">Ubuntu</a>), cloud-style, on Proxmox KVM.
+Based on Proxmox API Python (proxmoxer) and cloud-init.
+Hardware templating of KVM instances is possible by flavors configuration file (inspired by OpenStack flavors).
+Only local storage support, both directory and LVM Group.
+Cloud-init is linked to Qemu-KVM machines by <a href="http://cloudinit.readthedocs.org/en/latest/topics/datasources.html#no-cloud">NoCloud datasource</a>.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<pre><code>$ git clone https://github.com/libersoft/proxmox-init.git proxmox-init
+$ cd proxmox-init
+$ pip install requirements.txt
+</code></pre>
+
+<p>You need also to install <code>genisoimage</code>, needed to create the cloudinit seed datasource.</p>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>You have to copy proxmox settings from <code>settings/settings.py.dist</code> to <code>settings/settings.py</code> and edit it to reflect your current proxmox configuration.</p>
+
+<p>You can add and modify your hardware flavors in <code>flavors/</code>.
+In this case you have also to update choices for <code>--flavor</code> cmdline switch in the main script.</p>
+
+<p>You have to copy instance configuration from <code>settings/instance.py.dist</code> to <code>settings/instance.py</code> and edit it to reflect your need.</p>
+
+<p>Current format for configuration is quite rough and not very flexible.</p>
+
+<p>The script assumes you have your ssh key in the authorized_keys of the proxmox node,
+for the user specified in the settings file.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<pre><code>usage: proxvm-deploy.py [-h] --vmid VMID --name NAME [--flavor {micro,small}]
+                    [--storage {dir,lvm}]
+
+Create a proxmox kvm and cloudinit it.
+
+optional arguments:
+    -h, --help            show this help message and exit
+    --vmid VMID, -v VMID  Virtual machine id
+    --name NAME, -n NAME  Virtual machine name/hostname
+    --flavor {micro,small}, -f {micro,small}
+                    Virtual machine flavor
+    --storage {dir,lvm}, -s {dir,lvm}
+                    Virtual machine storage backend
+</code></pre>
+
+<h2>
+<a name="status" class="anchor" href="#status"><span class="octicon octicon-link"></span></a>Status</h2>
+
+<p>Rough working proof of concept.</p>
+
+<h2>
+<a name="possible-improvements" class="anchor" href="#possible-improvements"><span class="octicon octicon-link"></span></a>Possible Improvements</h2>
+
+<ul>
+<li>  Puppet and chef section in cloudinit template.</li>
+<li>  Ansible-pull launch on instance customization.</li>
+<li>  Support to proxmox remote storage.</li>
+<li>  Settings refactoring, especially network interfaces</li>
+<li>  Extend cmdline arguments to choose base os image, proxmox node, proxmox host anb other.</li>
+<li>  Code reorganization</li>
+</ul><h2>
+<a name="random-ideas-and-maybe" class="anchor" href="#random-ideas-and-maybe"><span class="octicon octicon-link"></span></a>Random Ideas and maybe</h2>
+
+<ul>
+<li>  Proxmox KVM Ansible module ?</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="https://www.gnu.org/licenses/gpl.html">Gnu General Public License 3.0</a></p>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<ul>
+<li>  <a href="https://github.com/swayf/proxmoxer">Proxmoxer</a>
+</li>
+<li>  <a href="http://cloudinit.readthedocs.org/en/latest/index.html">Cloud-init</a>
+</li>
+<li>  <a href="http://pve.proxmox.com/pve2-api-doc/">Proxmox API</a>
+</li>
+<li>  <a href="http://qa.ubuntu.com/2012/06/19/local-ubuntu-vm-provisioning-with-cloud-init/">Local Ubuntu vm provisioning with cloud-init</a>
+</li>
+<li>  <a href="https://en.wikibooks.org/wiki/QEMU/Images#Copying_an_image_to_a_physical_device">Copying an image to a physical device</a>
+</li>
+<li>  <a href="http://forum.proxmox.com/threads/12059-API-Create-KVM-with-Logical-Volume">API-Create-KVM-with-logical-Volume</a>
+</li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
